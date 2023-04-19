@@ -12,20 +12,15 @@ public class LightChanger : MonoBehaviour
     public Texture imageLevel;
     public Texture bookLevel;
     public Texture hideLevel;
+    public Texture cupLevel;
     public Color hatWallColor;
     public Color imageWallColor;
     public Color bookWallColor;
     public Color originalWallColor;
+    public Color cupWallColor;
     private Renderer renderer;
     public GameObject plane;
     public Material material;
-    //public GameObject parentWall;
-    //public GameObject wall1;
-    //public GameObject wall2;
-    //public GameObject wall3;
-    //public GameObject wall4;
-    //public GameObject bottomWall;
-    //public GameObject topWall;
     public int level;
 
     private void OnEnable()
@@ -41,8 +36,10 @@ public class LightChanger : MonoBehaviour
     private void Start()
     {
         renderer = plane.GetComponent<Renderer>();
-        renderer.material.mainTexture = hatLevel;
-        material.color = originalWallColor;
+        renderer.material.mainTexture = cupLevel;
+        material.color = cupWallColor;
+        Light l = pointLight.GetComponent<Light>();
+        l.enabled = true;
     }
 
     void Update()
@@ -52,9 +49,15 @@ public class LightChanger : MonoBehaviour
         Color lightColor;
         Texture showText;
         Color showColor;
+        l.enabled = true;
         switch (level)
         {
             //NEED to add Case 1
+            case 1:
+                lightColor = cupWallColor;
+                showText = cupLevel;
+                showColor = cupWallColor;
+                break;
             case 2:
                 lightColor = hatWallColor;
                 showText = hatLevel;
@@ -65,10 +68,15 @@ public class LightChanger : MonoBehaviour
                 showText = bookLevel;
                 showColor = bookWallColor;
                 break;
-            default:
+            case 4:
                 lightColor = imageWallColor;
                 showText = imageLevel;
                 showColor = imageWallColor;
+                break;
+            default:
+                lightColor = Color.white;
+                showText = hideLevel;
+                showColor = originalWallColor;
                 break;
         }
 
